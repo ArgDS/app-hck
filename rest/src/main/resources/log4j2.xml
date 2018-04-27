@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration status="WARN" name="log4j2.xml">
+    <Appenders>
+
+        <RollingFile name="RollingFileApp" immediateFlush="false" fileName="logs/app.log"
+                     filePattern="logs/app-%d{MM-dd-yyyy}.log.gz"
+                     ignoreExceptions="false">
+            <PatternLayout>
+                <pattern>%d %p %c{3} [%t] %m%n</pattern>
+            </PatternLayout>
+            <TimeBasedTriggeringPolicy />
+        </RollingFile>
+
+        <Console name="Console" target="SYSTEM_OUT" ignoreExceptions="false">
+            <PatternLayout pattern="%d %p %c{3} [%t] %m%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+
+        <Logger name="com.group.first.app" level="DEBUG" additivity="true">
+
+        </Logger>
+
+        <!--<Logger name="com.zaxxer.hikari.pool" level="INFO" additivity="true">
+
+        </Logger>-->
+
+        <root level="DEBUG">
+            <AppenderRef ref="RollingFileApp"/>
+            <AppenderRef ref="Console" />
+        </root>
+    </Loggers>
+
+
+</Configuration>

@@ -1,0 +1,26 @@
+---
+spring:
+  main:
+    banner-mode: 'off'
+  boot:
+    enable-auto-configuration: true
+db:
+  monitoring:
+    url: jdbc:postgresql://ip:port/db
+    user: user
+    password: password
+elasticsearch_store:
+  hosts:
+    - ip: 127.0.0.1
+      port: 9300
+  cluster_name: cluster
+  index_name: index
+  sniff_addresses: false
+  connections_per_node: 6
+  bulk:
+    size: 5
+    requests: 1000
+    timeout: 500
+    concurrent: 3
+loading:
+  full: PT24H

@@ -1,0 +1,88 @@
+version '0.0.1'
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}"
+    }
+}
+
+apply plugin: "org.springframework.boot"
+
+dependencies {
+
+    configurations.all {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+    compile group: "org.slf4j", name: "slf4j-api", version: "${overSlf4jVersion}"
+    compile group: "org.slf4j", name: "log4j-over-slf4j", version: "${overSlf4jVersion}"
+    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: "${log4jVersion}"
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: "${log4jVersion}"
+    compile group: 'org.springframework.boot', name: 'spring-boot', version: "${spring_boot_version}"
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: "${spring_boot_version}"
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: "${spring_boot_version}"
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "${spring_boot_version}"
+    //compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: "${spring_boot_version}"
+    compile group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: "${spring_boot_version}"
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: "${spring_boot_version}"
+    compile group: 'com.google.guava', name: 'guava', version: '23.6-jre'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
+    //compile group: 'org.postgresql', name: 'postgresql', version: '9.4-1206-jdbc42'
+    //compile group: 'org.elasticsearch', name: 'elasticsearch', version: '1.7.6'
+    //compile group: 'com.zaxxer', name: 'HikariCP', version: '2.2.5'
+
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "${spring_boot_version}"
+
+
+}
+
+
+
+task getDependencies(type: Copy) {
+    from configurations.compile, configurations.testCompile
+    into 'libs'
+}
+
+task fatJar(type: Jar) {
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+task thinkJar(type: Jar) {
+    manifest {
+        attributes ('Implementation-Title': "${common_jar_title}",
+                'Implementation-Version': version,
+                'Main-Class': "${base_class_app}",
+                'Class-path': configurations.compile.collect { 'libs/' + it.getName() }.join(' ') )
+    }
+    baseName = project.name + '-all'
+    with jar
+}
+
+task libsForThinkJar(type: Copy){
+    from configurations.compile
+    into 'build/libs/libs';
+}
+
+task copyConfigurationJar(type: Copy){
+    from ('src/main/resources/'){
+        include '*.yaml'
+    }
+    into 'build/libs/config'
+}
+
+processResources {
+    //exclude('*.properties')
+}
+
+task copyCmdScript(type: Copy){
+    from ('/'){
+        //include 'startup_web_app.bat'
+    }
+    into 'build/libs/';
+}

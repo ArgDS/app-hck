@@ -1,0 +1,35 @@
+group 'com.group.first.app'
+version '0.0.1'
+
+ext {
+    overSlf4jVersion = "1.7.12"
+    log4jVersion = "2.7"
+    spring_boot_version = "1.5.12.RELEASE"
+    common_jar_title = ""
+    base_class_app = ""
+    sourceEncoding = 'UTF-8'
+
+}
+
+
+
+allprojects {
+
+
+    apply plugin: 'java'
+
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
+
+}
