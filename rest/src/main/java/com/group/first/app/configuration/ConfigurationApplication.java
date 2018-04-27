@@ -18,7 +18,7 @@ import java.util.concurrent.Executor;
 
 @Configuration
 @PropertySource(value = "config/application.yaml")
-@EnableConfigurationProperties({Loading.class, Elasticsearch.class, Monitoring.class})
+@EnableConfigurationProperties({Loading.class, Elasticsearch.class, Database.class})
 public class ConfigurationApplication {
 
     @Autowired
@@ -28,7 +28,7 @@ public class ConfigurationApplication {
     protected Elasticsearch elasticsearch;
 
     @Autowired
-    protected Monitoring monitoring;
+    protected Database database;
 
 
     @Autowired
