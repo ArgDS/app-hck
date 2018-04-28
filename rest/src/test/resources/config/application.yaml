@@ -6,9 +6,10 @@ spring:
     enable-auto-configuration: true
 db:
   gfdb:
-    url: jdbc:postgresql://ip:port/db
-    user: user
-    password: password
+    url: jdbc:sqlite:autodb
+    user:
+    password:
+    driver_class: org.sqlite.JDBC
 elasticsearch_store:
   hosts:
     - ip: 127.0.0.1

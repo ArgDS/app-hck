@@ -1,13 +1,23 @@
 package com.group.first.app.configuration;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import liquibase.integration.spring.SpringLiquibase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.concurrent.Executor;
 
 
@@ -20,6 +30,8 @@ import java.util.concurrent.Executor;
 @PropertySource(value = "config/application.yaml")
 @EnableConfigurationProperties({Loading.class, Elasticsearch.class, Database.class})
 public class ConfigurationApplication {
+
+    private static final Logger log = LoggerFactory.getLogger(ConfigurationApplication.class);
 
     @Autowired
     protected Loading loading;
@@ -72,13 +84,22 @@ public class ConfigurationApplication {
         return executor;
     }
 
-    /*@Bean(name = "dataSource")
-    public DataSource monitoringDataSource(){
-        return createDataSource(monitoring);
+    @Bean(name = "dataSource")
+    public DataSource dataSource(){
+        DataSource dataSource = createDataSource(database);
+        return dataSource;
+    }
+
+    @Bean
+    public SpringLiquibase liquibase(@Autowired @Qualifier("dataSource") DataSource dataSource) {
+        SpringLiquibase liquibase = new SpringLiquibase();
+        liquibase.setChangeLog("classpath:init_db.xml");
+        liquibase.setDataSource(dataSource);
+        return liquibase;
     }
 
     @Bean(name = "jdbcTemplate")
-    public NamedParameterJdbcTemplate monitoringJdbcTemplate(@Autowired @Qualifier("monitoringDataSource") DataSource dataSource){
+    public NamedParameterJdbcTemplate jdbcTemplate(@Autowired @Qualifier("dataSource") DataSource dataSource){
         return new NamedParameterJdbcTemplate(dataSource);
     }
 
@@ -91,5 +112,5 @@ public class ConfigurationApplication {
         hikariConfig.setMinimumIdle(2);
         hikariConfig.setMaximumPoolSize(2);
         return new HikariDataSource(hikariConfig);
-    }*/
+    }
 }

@@ -8,6 +8,7 @@ ext {
     common_jar_title = ""
     base_class_app = ""
     sourceEncoding = 'UTF-8'
+    sqlite_version = '3.21.0.1'
 
 }
 

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet author="dmikhailov" id="01">
+        <preConditions onFail="MARK_RAN" onFailMessage="User adm already exists">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM pg_user WHERE usename = 'adm'</sqlCheck>
+        </preConditions>
+        <comment>пользователь adm</comment>
+        <sql>create user adm password 'adm'</sql>
+        <rollback>DROP user adm</rollback>
+    </changeSet>
+
+    <changeSet author="dmikhailov" id="02" runInTransaction="false">
+        <preConditions onFail="MARK_RAN" onFailMessage="Database autodb already exists">
+            <sqlCheck expectedResult="0">SELECT COUNT(1) FROM pg_database where datname = 'autodb'</sqlCheck>
+        </preConditions>
+        <comment>база данных autodb</comment>
+        <sql>create database autodb owner adm</sql>
+        <rollback>DROP database autodb</rollback>
+    </changeSet>
+
+    <changeSet author="dmikhailov" id="03">
+        <comment>гранты на поключение к autodb для adm</comment>
+        <sql>grant connect on database autodb to adm</sql>
+        <rollback>revoke connect on database autodb from adm</rollback>
+    </changeSet>
+
+    <changeSet author="dmikhailov" id="04">
+        <comment>отбор public грантов на поключение к autodb</comment>
+        <sql>revoke connect on database autodb from public</sql>
+        <rollback>grant connect on database autodb to public</rollback>
+    </changeSet>
+
+    <changeSet author="dmikhailov" id="05">
+        <comment>Схема autosm</comment>
+        <sql>
+            CREATE SCHEMA IF NOT EXISTS AUTOSM AUTHORIZATION adm;
+            GRANT USAGE ON SCHEMA AUTOSM TO adm;
+        </sql>
+        <rollback>
+            DROP SCHEMA AUTOSM;
+        </rollback>
+    </changeSet>
+
+    <changeSet author="dmikhailov" id="06">
+        <comment>прописываем для пользователя adm схему autosm</comment>
+        <sql>alter user adm SET search_path = autosm,public</sql>
+        <rollback>alter user adm SET search_path = public</rollback>
+    </changeSet>
+
+    <changeSet author="dmikhailov" id="07">
+        <sql>grant select, update, insert, delete on all tables in schema autosm to adm</sql>
+        <rollback>revoke select on all tables in schema autosm to adm</rollback>
+    </changeSet>
+
+    <changeSet author="dmikhailov" id="08">
+        <comment>Создание таблицы 'person'</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS AUTOSM.PERSON (
+            ID bigint NOT NULL,
+            NAME VARCHAR(100) NOT NULL,
+            BIRTHDAY TIMESTAMP NOT NULL,
+
+            CONSTRAINT PK_PERSON_ID PRIMARY KEY (ID)
+            );
+
+            ALTER TABLE AUTOSM.PERSON OWNER TO ADM;
+            GRANT SELECT, INSERT, UPDATE, DELETE ON AUTOSM.PERSON TO ADM;
+
+        </sql>
+        <rollback>
+            DROP TABLE AUTOSM.PERSON;
+        </rollback>
+    </changeSet>
+
+    <changeSet author="dmikhailov" id="09">
+        <comment>Создание таблицы 'car'</comment>
+        <sql>
+            CREATE TABLE IF NOT EXISTS AUTOSM.CAR (
+            ID bigint NOT NULL,
+            MODEL VARCHAR(100) NOT NULL,
+            VENDOR VARCHAR(100) NOT NULL,
+            HORSEPOWER INTEGER NOT NULL,
+            OWNERID bigint NOT NULL,
+            CONSTRAINT PK_CAR_ID PRIMARY KEY (ID)
+            );
+
+            ALTER TABLE AUTOSM.CAR OWNER TO ADM;
+            GRANT SELECT, INSERT, UPDATE, DELETE ON AUTOSM.CAR TO ADM;
+
+        </sql>
+        <rollback>
+            DROP TABLE AUTOSM.CAR;
+        </rollback>
+    </changeSet>
+
+    <changeSet author="dmikhailov" id="10">
+        <comment>Внешние ключи связи car и person</comment>
+        <sql>
+            ALTER TABLE AUTOSM.CAR
+            ADD CONSTRAINT FK_AUTOSM_PERSON_ID
+            FOREIGN KEY (OWNERID) REFERENCES AUTOSM.PERSON (ID);
+        </sql>
+        <rollback>
+            ALTER TABLE AUTOSM.CAR
+            DROP CONSTRAINT FK_AUTOSM_PERSON_ID;
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
