@@ -4,6 +4,8 @@ import com.group.first.app.dto.Car;
 import com.group.first.app.exception.CarValidateException;
 import org.springframework.stereotype.Service;
 
+import java.util.regex.Pattern;
+
 @Service
 public class ValidationService {
 
@@ -13,8 +15,12 @@ public class ValidationService {
             throw new CarValidateException("get null");
         }
 
+        String model = car.getModel();
 
-
+        Pattern pattern = Pattern.compile(".+-.+");
+        if (!pattern.matcher(model).find()) {
+            throw new CarValidateException("model pattern");
+        }
 
     }
 
