@@ -18,9 +18,6 @@ import java.util.Map;
 public class StatisticDAO {
 
     @Autowired
-    @Qualifier("dataSource")
-    private DataSource dataSource;
-
     NamedParameterJdbcTemplate npjt;
 
     public Statistics getStatistic() {
