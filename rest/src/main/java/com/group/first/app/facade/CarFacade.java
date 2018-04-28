@@ -16,8 +16,16 @@ public class CarFacade {
     @Autowired
     CarService carService;
 
+    @Autowired
+    StatisticFacade statisticFacade;
+
     public void addCar(Car car) throws CarValidateException {
         validationService.validateCar(car);
+        statisticFacade.addCar();
+    }
+
+    public void clearAllCars() {
+        carService.clearAllCars();
     }
 
 }
