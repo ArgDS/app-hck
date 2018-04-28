@@ -16,7 +16,10 @@ public class ValidationService {
 
     }
 
+    private boolean personPacanskyValidarot(){
 
+        return true;
+    }
 
 
 }
