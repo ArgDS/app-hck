@@ -15,11 +15,4 @@ public class StatisticFacade {
         return statisticService.getStatic();
     }
 
-    public void addCar() {
-        statisticService.addCar();
-    }
-
-    public  void addPerson() {
-        statisticService.addPerson();
-    }
 }
