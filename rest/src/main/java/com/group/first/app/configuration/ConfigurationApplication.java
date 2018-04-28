@@ -28,7 +28,7 @@ import java.util.concurrent.Executor;
 
 @Configuration
 @PropertySource(value = "config/application.yaml")
-@EnableConfigurationProperties({Loading.class, Elasticsearch.class, Database.class})
+@EnableConfigurationProperties({Loading.class, Elasticsearch.class, Database.class, AutoDatabase.class})
 public class ConfigurationApplication {
 
     private static final Logger log = LoggerFactory.getLogger(ConfigurationApplication.class);
@@ -41,6 +41,9 @@ public class ConfigurationApplication {
 
     @Autowired
     protected Database database;
+
+    @Autowired
+    protected AutoDatabase autoDatabase;
 
 
     @Autowired
@@ -85,7 +88,7 @@ public class ConfigurationApplication {
     }
 
     @Bean(name = "dataSource")
-    public DataSource dataSource(){
+    public DataSource dataSource(@Autowired @Qualifier("database") Database database){
         DataSource dataSource = createDataSource(database);
         return dataSource;
     }

@@ -10,6 +10,11 @@ db:
     user: postgres
     password: postgres
     driver_class: org.postgresql.Driver
+  autodb:
+    url: jdbc:postgresql://78.155.199.72:5432/autodb
+    user: adm
+    password: adm
+    driver_class: org.postgresql.Driver
 elasticsearch_store:
   hosts:
     - ip: 127.0.0.1
