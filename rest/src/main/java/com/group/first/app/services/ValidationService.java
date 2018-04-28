@@ -1,6 +1,6 @@
 package com.group.first.app.services;
 
-import com.group.first.app.dto.Car;
+import com.group.first.app.model.Car;
 import com.group.first.app.exception.CarValidateException;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +15,13 @@ public class ValidationService {
             throw new CarValidateException("get null");
         }
 
-        String model = car.getModel();
-
         Pattern pattern = Pattern.compile(".+-.+");
-        if (!pattern.matcher(model).find()) {
+        if (!pattern.matcher(car.getModel()).find()) {
             throw new CarValidateException("model pattern");
+        }
+
+        if (!(car.getHorsePower()>0)) {
+            throw new CarValidateException("horsePower not valid");
         }
 
     }
