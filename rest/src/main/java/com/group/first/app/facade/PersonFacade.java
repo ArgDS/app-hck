@@ -39,10 +39,13 @@ public class PersonFacade {
 
     public PersonWithCars getPersonWithCars(Long id) throws PersonIdException {
         validationService.personIdValidator(id);
+        PersonWithCars personWithCars = null;
         Person person = personService.getPerson(id);
-        List<Car> cars = carService.getOunerCars(person.getId());
-        PersonWithCars personWithCars = new PersonWithCars(person);
-        personWithCars.setCars(cars);
+        if (person != null) {
+            List<Car> cars = carService.getOunerCars(person.getId());
+            personWithCars = new PersonWithCars(person);
+            personWithCars.setCars(cars);
+        }
         return personWithCars;
     }
 
