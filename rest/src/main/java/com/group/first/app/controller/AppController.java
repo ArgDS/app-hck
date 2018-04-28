@@ -44,11 +44,9 @@ public class AppController {
             carFacade.addCar(car);
         } catch (CarValidateException e) {
             e.printStackTrace();
-            // вернуть 400
-
-            //return new ResponseEntity<String>();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return null;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
