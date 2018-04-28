@@ -4,6 +4,7 @@ package com.group.first.app.services;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
+import com.group.first.app.exception.PersonIdException;
 import com.group.first.app.model.Car;
 
 import com.group.first.app.exception.CarValidateException;
@@ -55,6 +56,13 @@ public class ValidationService {
         }
         //todo и тут еще проверка из базы на существование
         return person;
+    }
+
+    public boolean personIdValidator(Long id) throws PersonIdException {
+        if (id == null || id < 1){
+            throw new PersonIdException("Проверте ID");
+        }
+        return true;
     }
 
 
