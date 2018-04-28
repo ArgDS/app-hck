@@ -20,15 +20,16 @@ public class StatisticDAO {
     @Autowired
     NamedParameterJdbcTemplate npjt;
 
+    final String SQL_PERSON = "Select count(*) from person"; //в один бы запрос
+    final String SQL_CAR = "Select count(*) from car";
+
     public Statistics getStatistic() {
 
-        String sqlPerson = "Select count(*) from person"; //в один бы запрос
-        String sqlCar = "Select count(*) from car";
 
         Statistics statistics = new Statistics();
 
-        statistics.setPersoncount(npjt.queryForObject(sqlPerson, new EmptySqlParameterSource(), Long.class));
-        statistics.setPersoncount(npjt.queryForObject(sqlCar, new EmptySqlParameterSource(), Long.class));
+        statistics.setPersoncount(npjt.queryForObject(SQL_PERSON, new EmptySqlParameterSource(), Long.class));
+        statistics.setPersoncount(npjt.queryForObject(SQL_CAR, new EmptySqlParameterSource(), Long.class));
 
         return statistics;
     }
