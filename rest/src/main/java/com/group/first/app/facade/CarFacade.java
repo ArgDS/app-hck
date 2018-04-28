@@ -21,7 +21,7 @@ public class CarFacade {
 
     public void addCar(Car car) throws CarValidateException {
         validationService.validateCar(car);
-        statisticFacade.addCar();
+        carService.addCar(car);
     }
 
     public void clearAllCars() {
