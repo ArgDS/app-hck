@@ -8,6 +8,14 @@ import java.util.List;
 @Service
 public class CarService {
 
+    public void addCar(Car car) {
+
+    }
+
+    public Car getCar(Long carId) {
+        return null;
+    }
+
     public List<Car> getOunerCars(Long ounerId) {
         return null;
     }
