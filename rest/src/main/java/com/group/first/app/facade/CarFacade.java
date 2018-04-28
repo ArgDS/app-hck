@@ -20,4 +20,8 @@ public class CarFacade {
         validationService.validateCar(car);
     }
 
+    public void clearAllCars() {
+        carService.clearAllCars();
+    }
+
 }

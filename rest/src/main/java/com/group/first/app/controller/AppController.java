@@ -41,10 +41,18 @@ public class AppController {
     }
 
 
-    @RequestMapping(path = "car", method = RequestMethod.POST)
+    @RequestMapping(path = "statistics", method = RequestMethod.GET)
     @ResponseBody
     public Statistics getStatistics(){
         return statisticFacade.getStatistic();
+    }
+
+
+    @RequestMapping(path = "clear", method = RequestMethod.GET)
+    @ResponseBody
+    public void clear() {
+        carFacade.clearAllCars();
+
     }
 
 

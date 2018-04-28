@@ -20,4 +20,8 @@ public class CarService {
         return null;
     }
 
+    public void clearAllCars() {
+
+    }
+
 }
