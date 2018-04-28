@@ -29,7 +29,7 @@ public class PersonFacade {
     @Autowired
     private CarService carService;
 
-    public void addPerson(String personJson) throws IOException, PersonValidateException {
+    public void addPerson(String personJson) throws IOException, PersonValidateException, PersonIdException {
         Person person = validationService.personPacanckyValidarot(personJson);
         personService.addPerson(person);
 
