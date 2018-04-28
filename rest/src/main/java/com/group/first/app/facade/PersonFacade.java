@@ -24,15 +24,15 @@ public class PersonFacade {
     @Autowired
     private PersonService personService;
 
-    @Autowired
-    private PersonDAO personDAO;
+
 
     @Autowired
     private CarService carService;
 
     public void addPerson(String personJson) throws IOException, PersonValidateException {
         Person person = validationService.personPacanckyValidarot(personJson);
-        personDAO.addPerson(person);
+        personService.addPerson(person);
+
     }
 
 
@@ -44,6 +44,10 @@ public class PersonFacade {
         PersonWithCars personWithCars = new PersonWithCars(person);
         personWithCars.setCars(cars);
         return personWithCars;
+    }
+
+    public void clearAllPerson(){
+        personService.clearAllPerson();
     }
 
 }

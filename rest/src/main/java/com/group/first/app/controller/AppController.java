@@ -1,16 +1,19 @@
 package com.group.first.app.controller;
 
+import com.group.first.app.exception.PersonIdException;
+import com.group.first.app.exception.PersonValidateException;
+import com.group.first.app.facade.PersonFacade;
 import com.group.first.app.facade.StatisticFacade;
 import com.group.first.app.model.Car;
 import com.group.first.app.exception.CarValidateException;
 import com.group.first.app.facade.CarFacade;
+import com.group.first.app.model.PersonWithCars;
 import com.group.first.app.model.Statistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 /**
  * Created by Ganichev on 4/28/2018.
@@ -23,6 +26,9 @@ public class AppController {
 
     @Autowired
     StatisticFacade statisticFacade;
+
+    @Autowired
+    PersonFacade personFacade;
 
 
 
@@ -47,5 +53,24 @@ public class AppController {
         return statisticFacade.getStatistic();
     }
 
+    @RequestMapping(path = "/person", method = RequestMethod.POST)
+    public void addPerson(@RequestBody String personJson){
+        try {
+            personFacade.addPerson(personJson);
+        } catch (IOException | PersonValidateException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(path = "/personwithcars", method = RequestMethod.POST)
+    public PersonWithCars getPersonWithCars(@RequestParam Long id){
+        try {
+            PersonWithCars personWithCars = personFacade.getPersonWithCars(id);
+            return personWithCars;
+        } catch (PersonIdException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }

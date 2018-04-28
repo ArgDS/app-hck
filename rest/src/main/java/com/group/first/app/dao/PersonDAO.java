@@ -14,4 +14,8 @@ public class PersonDAO {
 
     }
 
+    public void clearAllPersons(){
+
+    }
+
 }
