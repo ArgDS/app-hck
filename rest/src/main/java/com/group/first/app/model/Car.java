@@ -1,4 +1,4 @@
-package com.group.first.app.dto;
+package com.group.first.app.model;
 
 public class Car {
 

@@ -1,6 +1,6 @@
 package com.group.first.app.facade;
 
-import com.group.first.app.dto.Car;
+import com.group.first.app.model.Car;
 import com.group.first.app.exception.CarValidateException;
 import com.group.first.app.services.CarService;
 import com.group.first.app.services.ValidationService;
