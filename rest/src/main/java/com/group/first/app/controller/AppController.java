@@ -1,8 +1,10 @@
 package com.group.first.app.controller;
 
+import com.group.first.app.facade.StatisticFacade;
 import com.group.first.app.model.Car;
 import com.group.first.app.exception.CarValidateException;
 import com.group.first.app.facade.CarFacade;
+import com.group.first.app.model.Statistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,9 @@ public class AppController {
     @Autowired
     CarFacade carFacade;
 
+    @Autowired
+    StatisticFacade statisticFacade;
+
 
 
     @RequestMapping(path = "car", method = RequestMethod.POST)
@@ -33,6 +38,13 @@ public class AppController {
             //return new ResponseEntity<String>();
         }
         return null;
+    }
+
+
+    @RequestMapping(path = "car", method = RequestMethod.POST)
+    @ResponseBody
+    public Statistics getStatistics(){
+        return statisticFacade.getStatistic();
     }
 
 
