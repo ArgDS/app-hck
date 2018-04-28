@@ -8,20 +8,21 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.EmptySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Repository
 public class StatisticDAO {
 
     @Autowired
+    @Qualifier("jdbcTemplate")
     NamedParameterJdbcTemplate npjt;
 
-    final String SQL_PERSON = "Select count(*) from person"; //в один бы запрос
+    final String SQL_PERSON = "Select count(*) from person"; //в один бы запрос все 3-и
     final String SQL_CAR = "Select count(*) from car";
-    //final String SQL_MODEL = "select counnt(*) from car"; // надо сделать уникальный запрос по производителю distincr()
     final String SQL_VENDOR = "SELECT COUNT(*) FROM (SELECT DISTINCT vendor FROM car) AS temp;"; // по производителю distincr()
 
-
+    @Transactional
     public Statistics getStatistic() {
         Statistics statistics = new Statistics();
 

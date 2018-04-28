@@ -22,11 +22,11 @@ public class CarService {
     }
 
     public List<Car> getOunerCars(Long ounerId) {
-        return null;
+        return carDAO.getOunerCars(ounerId);
     }
 
     public void clearAllCars() {
-
+        carDAO.clearAll();
     }
 
 }
