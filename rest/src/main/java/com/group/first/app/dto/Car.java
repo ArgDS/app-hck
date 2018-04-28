@@ -1,10 +1,10 @@
 package com.group.first.app.dto;
 
-public class CarDto {
+public class Car {
 
     private Long id;
     private String model;
-    private int horsePower;
+    private Integer horsePower;
     private Long OunerId;
 
 
@@ -24,11 +24,11 @@ public class CarDto {
         this.model = model;
     }
 
-    public int getHorsePower() {
+    public Integer getHorsePower() {
         return horsePower;
     }
 
-    public void setHorsePower(int horsePower) {
+    public void setHorsePower(Integer horsePower) {
         this.horsePower = horsePower;
     }
 
