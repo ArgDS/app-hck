@@ -1,6 +1,8 @@
 package com.group.first.app.services;
 
+import com.group.first.app.dao.CarDAO;
 import com.group.first.app.model.Car;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,12 +10,15 @@ import java.util.List;
 @Service
 public class CarService {
 
-    public void addCar(Car car) {
+    @Autowired
+    CarDAO carDAO;
 
+    public void addCar(Car car) {
+        carDAO.addCar(car);
     }
 
     public Car getCar(Long carId) {
-        return null;
+        return carDAO.getCar();
     }
 
     public List<Car> getOunerCars(Long ounerId) {
