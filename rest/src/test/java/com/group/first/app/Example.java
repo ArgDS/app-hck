@@ -17,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 
 @SpringBootConfiguration
 @TestPropertySource(locations = "classpath:config/application.yaml")
-@EnableConfigurationProperties({Loading.class, })
+@EnableConfigurationProperties({Loading.class })
 @RunWith(SpringJUnit4ClassRunner.class)
 public class Example {
 

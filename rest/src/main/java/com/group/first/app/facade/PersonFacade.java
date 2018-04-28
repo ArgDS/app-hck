@@ -10,6 +10,7 @@ import com.group.first.app.services.CarService;
 import com.group.first.app.services.PersonService;
 import com.group.first.app.services.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
+@ConfigurationProperties
 public class PersonFacade {
 
     @Autowired

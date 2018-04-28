@@ -18,7 +18,7 @@ public class CarService {
     }
 
     public Car getCar(Long carId) {
-        return carDAO.getCar();
+        return carDAO.getCar(carId);
     }
 
     public List<Car> getOunerCars(Long ounerId) {
