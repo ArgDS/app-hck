@@ -4,6 +4,7 @@ package com.group.first.app;
 import com.group.first.app.configuration.ConfigurationApplication;
 import com.group.first.app.configuration.Loading;
 import com.group.first.app.facade.PersonFacade;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
