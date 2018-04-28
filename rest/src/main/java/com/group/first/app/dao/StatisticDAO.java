@@ -22,17 +22,19 @@ public class StatisticDAO {
 
     final String SQL_PERSON = "Select count(*) from person"; //в один бы запрос
     final String SQL_CAR = "Select count(*) from car";
+    final String SQL_MODEL = "select counnt(*) from car"; // надо сделать уникальный запрос по производителю distincr()
 
     public Statistics getStatistic() {
-
-
         Statistics statistics = new Statistics();
 
         statistics.setPersoncount(npjt.queryForObject(SQL_PERSON, new EmptySqlParameterSource(), Long.class));
         statistics.setPersoncount(npjt.queryForObject(SQL_CAR, new EmptySqlParameterSource(), Long.class));
+        statistics.setUniquevendorcount(npjt.queryForObject(SQL_MODEL, new EmptySqlParameterSource(), Long.class));
 
         return statistics;
     }
+
+
 
 
 }

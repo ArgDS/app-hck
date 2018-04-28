@@ -19,6 +19,6 @@ public class PersonService {
     }
 
     public void clearAllPerson() {
-
+        personDAO.clearAllPersons();
     }
 }

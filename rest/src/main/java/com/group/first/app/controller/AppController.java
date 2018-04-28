@@ -57,23 +57,13 @@ public class AppController {
     }
 
     @RequestMapping(path = "/person", method = RequestMethod.POST)
-    public void addPerson(@RequestBody String personJson){
-        try {
-            personFacade.addPerson(personJson);
-        } catch (IOException | PersonValidateException e) {
-            e.printStackTrace();
-        }
+    public void addPerson(@RequestBody String personJson) throws PersonValidateException, PersonIdException, IOException {
+        personFacade.addPerson(personJson);
     }
 
     @RequestMapping(path = "/personwithcars", method = RequestMethod.POST)
-    public PersonWithCars getPersonWithCars(@RequestParam Long id){
-        try {
-            PersonWithCars personWithCars = personFacade.getPersonWithCars(id);
-            return personWithCars;
-        } catch (PersonIdException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public PersonWithCars getPersonWithCars(@RequestParam Long id) throws PersonIdException {
+        return personFacade.getPersonWithCars(id);
     }
 
     @RequestMapping(path = "clear", method = RequestMethod.GET)
