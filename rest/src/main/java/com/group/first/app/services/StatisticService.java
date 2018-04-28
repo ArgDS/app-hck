@@ -10,4 +10,12 @@ public class StatisticService {
         return null;
     }
 
+    public void addPerson() {
+
+    }
+
+    public void addCar() {
+
+    }
+
 }
